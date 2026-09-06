@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Business Idea Judge</title>
+</head>
+
+<body style="font-family: Arial; max-width: 700px; margin: 60px auto; background: #f5f5f5; padding: 30px;">
+  <h1>Business Idea Judge</h1>
+<p>Describe your business idea and get a score out of 100.</p>
+<textarea id="idea" placeholder="Type your business idea here..." style="width: 100%; height: 120px; border-radius: 8px; padding: 12px; font-size: 16px;"></textarea>
+<br>
+<button style="padding: 14px 24px; margin-top: 14px; font-size: 16px; background: #111; color: white; border: none; border-radius: 8px; cursor: pointer;" onclick="sendIdea()">
+  Judge My Idea
+</button>
+<div id="result" style="display: none; white-space: pre-line; margin-top: 20px; background: white; padding: 20px; border-radius: 10px;"></div>
+<script>
+async function sendIdea() {
+  const idea = document.getElementById("idea").value;
+if (!idea.trim()) {
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").textContent = "Type a business idea first.";
+  return;
+}
+document.getElementById("result").style.display = "block";
+document.getElementById("result").textContent = "Analyzing your idea...";
+
+try {
+
+  const response = await fetch("/judge", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({idea: idea})
+  });
+
+  const data = await response.json();
+document.getElementById("result").style.display = "block";
+  document.getElementById("result").textContent =
+    data.message + ": " + data.idea;
+} catch (error) {
+  document.getElementById("result").textContent = "Something went wrong. Please try again.";
+}
+}
+</script>
+</body>
+</html>
