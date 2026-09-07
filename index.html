@@ -2,6 +2,28 @@
 <html>
 <head>
   <title>Business Idea Judge</title>
+<style>
+#result::first-line {
+  font-size: 26px;
+  font-weight: bold;
+}
+#result > div {
+  margin-bottom: 14px;
+}
+#result > div:first-child {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+#result > div:not(:first-child) strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+</style>
 </head>
 
 <body style="font-family: Arial; max-width: 700px; margin: 60px auto; background: #f5f5f5; padding: 30px;">
@@ -34,7 +56,27 @@ try {
 
   const data = await response.json();
 document.getElementById("result").style.display = "block";
-  document.getElementById("result").textContent = data.idea;
+  const result = document.getElementById("result");
+result.innerHTML = "";
+
+data.idea.split("\n").forEach(line => {
+  const row = document.createElement("div");
+  const colon = line.indexOf(":");
+
+  if (colon !== -1) {
+    const title = document.createElement("strong");
+    title.textContent = line.slice(0, colon + 1);
+title.style.display = "block";
+title.style.textTransform = "uppercase";
+
+    row.appendChild(title);
+    row.appendChild(document.createTextNode(line.slice(colon + 1)));
+  } else {
+    row.textContent = line;
+  }
+
+  result.appendChild(row);
+});
 } catch (error) {
   document.getElementById("result").textContent = "Something went wrong. Please try again.";
 }
