@@ -76,7 +76,17 @@ title.style.textTransform = "uppercase";
   } else {
     row.textContent = line;
   }
+if (line.startsWith("Score:")) {
+  const score = parseInt(line.match(/\d+/)[0]);
 
+  if (score < 50) {
+    row.style.color = "red";
+  } else if (score < 75) {
+    row.style.color = "orange";
+  } else {
+    row.style.color = "green";
+  }
+}
   result.appendChild(row);
 });
 } catch (error) {
