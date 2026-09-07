@@ -12,7 +12,7 @@
 <button style="padding: 14px 24px; margin-top: 14px; font-size: 16px; background: #111; color: white; border: none; border-radius: 8px; cursor: pointer;" onclick="sendIdea()">
   Judge My Idea
 </button>
-<div id="result" style="display: none; white-space: pre-line; margin-top: 20px; background: white; padding: 20px; border-radius: 10px;"></div>
+<div id="result" style="display: none; white-space: pre-line; margin-top: 20px; background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e5e5; box-shadow: 0 8px 24px rgba(0,0,0,0.06); line-height: 1.6;"></div>
 <script>
 async function sendIdea() {
   const idea = document.getElementById("idea").value;
@@ -34,8 +34,7 @@ try {
 
   const data = await response.json();
 document.getElementById("result").style.display = "block";
-  document.getElementById("result").textContent =
-    data.message + ": " + data.idea;
+  document.getElementById("result").textContent = data.idea;
 } catch (error) {
   document.getElementById("result").textContent = "Something went wrong. Please try again.";
 }
